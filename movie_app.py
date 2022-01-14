@@ -3,12 +3,12 @@ import csv
 from content_filtering import getRecommendation
 from demographic_filtering import output
 from storage import all_movies,liked_movies,disliked_movies,did_not_watch
-
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route('/get-movies')
-
+@app.route('/get-movie')
 def get_movie():
     movie_data = {
         'title': all_movies[0][19],
@@ -23,8 +23,7 @@ def get_movie():
         'status':'Success'
     })
 
-@app.route('/liked-movies',methods=['POST'])
-
+@app.route('/liked-movie',methods=['POST'])
 def liked_movies():
     movie = all_movies[0]
     liked_movies.append(movie)
@@ -33,8 +32,7 @@ def liked_movies():
         'status':'Success'
     }), 201
 
-@app.route('/disliked-movies',methods=['POST'])
-
+@app.route('/disliked-movie',methods=['POST'])
 def disliked_movies():
     movie = all_movies[0]
     disliked_movies.append(movie)
@@ -44,7 +42,6 @@ def disliked_movies():
     }),201
 
 @app.route('/did-not-watch',methods=['POST'])
-
 def did_not_watch():
     movie = all_movies[0]
     did_not_watch.append(movie)
@@ -53,8 +50,7 @@ def did_not_watch():
         'status':'Success'
     }),201
 
-@app.route('/popular-movies')
-
+@app.route('/popular-movie')
 def popular_movies():
     movie_data=[]
     for movie in output:
@@ -73,7 +69,7 @@ def popular_movies():
     }),200
 
 
-@app.route("/recommended-movies")
+@app.route("/recommended-movie")
 def recommended_movies(): 
     all_recommended = [] 
     for liked_movie in liked_movies: 
